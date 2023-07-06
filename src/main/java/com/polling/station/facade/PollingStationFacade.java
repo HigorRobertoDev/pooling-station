@@ -110,6 +110,10 @@ public class PollingStationFacade implements IPollingStationFacade {
                 request.getCodAssociate()
         );
 
+        this.associateService.verifyCpfAssociate(
+                request.getCodAssociate()
+        );
+
         VotingByAgenda votingToSave = this.votingAgendaBo.createVotingByAgenda(
                 request
         );

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class AssociateResponse {
 
     private Long codAssociate;
-
     private String associateName;
+    private String cpf;
 
 }

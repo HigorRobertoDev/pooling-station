@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class AssociateRequest {
 
     private String associateName;
+    private String cpf;
 
 }

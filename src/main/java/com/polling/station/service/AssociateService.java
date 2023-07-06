@@ -1,8 +1,11 @@
 package com.polling.station.service;
 
+import com.polling.station.api.webclient.ValidadorCpfApi;
+import com.polling.station.api.webclient.response.ValidadorCepResponse;
 import com.polling.station.model.Associate;
 import com.polling.station.repositories.IAssociateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +15,9 @@ public class AssociateService implements IAssociateService {
 
     @Autowired
     private IAssociateRepository associateRepository;
+
+    @Autowired
+    private ValidadorCpfApi validadorCpfApi;
 
     @Override
     public Associate createAssociate(Associate associate) {
@@ -32,6 +38,23 @@ public class AssociateService implements IAssociateService {
 
         if (!exists) {
             throw new RuntimeException("Associate not found");
+        }
+    }
+
+    @Override
+    public void verifyCpfAssociate(Long codAssociate) {
+
+        Associate associate = this.associateRepository.getById(codAssociate);
+
+        ResponseEntity<ValidadorCepResponse> response =
+                validadorCpfApi.validarCep(associate.getCpf());
+
+        if (response.getStatusCode().value() == 200) {
+            ValidadorCepResponse validadorCepResponse = response.getBody();
+
+            if (validadorCepResponse.getStatus().equals("UNABLE_TO_VOTE")) {
+                throw new RuntimeException("This Associate is unable to vote");
+            }
         }
     }
 }
