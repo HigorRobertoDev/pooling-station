@@ -11,4 +11,6 @@ public interface IVotingSessionService {
 
     void verifyTimeSessionByCodVotingAgenda(Long codVotingAgenda);
 
+    void validateExistsVotingAgendaInVotingSessionBy(Long codVotingAgenda);
+
 }

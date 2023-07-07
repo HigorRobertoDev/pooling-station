@@ -75,6 +75,10 @@ public class PollingStationFacade implements IPollingStationFacade {
                 request.getCodVotingAgenda()
         );
 
+        this.votingSessionService.validateExistsVotingAgendaInVotingSessionBy(
+                request.getCodVotingAgenda()
+        );
+
         VotingSession votingSessionToSave = this.votingSessionBo.createVotingSession(
                 request,
                 votingAgenda
@@ -107,6 +111,10 @@ public class PollingStationFacade implements IPollingStationFacade {
         );
 
         this.associateService.verifyAssociate(
+                request.getCodAssociate()
+        );
+
+        this.associateService.verifyCpfAssociate(
                 request.getCodAssociate()
         );
 

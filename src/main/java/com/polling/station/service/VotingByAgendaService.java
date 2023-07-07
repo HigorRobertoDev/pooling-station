@@ -1,5 +1,7 @@
 package com.polling.station.service;
 
+import com.polling.station.common.exceptions.BusinessException;
+import com.polling.station.common.exceptions.enums.BusinessErroEnum;
 import com.polling.station.model.VotingByAgenda;
 import com.polling.station.model.VotingByAgendaPK;
 import com.polling.station.repositories.IVotingByAgendaRepository;
@@ -27,7 +29,7 @@ public class VotingByAgendaService implements IVotingByAgendaService {
         );
 
         if (exists) {
-            throw new RuntimeException("Voting exists");
+            throw new BusinessException(BusinessErroEnum.VOTING_EXISTS);
         }
     }
 

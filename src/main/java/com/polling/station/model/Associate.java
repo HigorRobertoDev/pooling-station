@@ -23,6 +23,9 @@ public class Associate {
     @Column(name = "ASSOCIATE_NAME", nullable = false, length = 150)
     private String associateName;
 
+    @Column(name = "ASSOCIATE_CPF", nullable = false, length = 11)
+    private String cpf;
+
 //    @OneToOne(mappedBy = "associate")
 //    private VotingByAgenda votingByAgenda;
 

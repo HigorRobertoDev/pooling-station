@@ -12,4 +12,6 @@ public interface IAssociateService {
 
     void verifyAssociate(Long codAssociate);
 
+    void verifyCpfAssociate(Long codAssociate);
+
 }

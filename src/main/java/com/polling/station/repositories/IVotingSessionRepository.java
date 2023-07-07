@@ -11,4 +11,8 @@ public interface IVotingSessionRepository extends JpaRepository<VotingSession, L
             Long codVotingAgenda
     );
 
+    Boolean existsByVotingAgendaCodVotingAgenda(
+            Long codVotingAgenda
+    );
+
 }

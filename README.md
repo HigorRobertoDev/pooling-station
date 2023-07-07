@@ -79,14 +79,16 @@ Response:
 Request:
 ```json
 {
-    "associateName": "Higão de Guararema"
+    "associateName": "Higão de Guararema",
+    "cpf": "79699062061"
 }
 ```
 Response:
 ```json
 {
     "codAssociate": 1,
-    "associateName": "Higão de Guararema"
+    "associateName": "Higão de Guararema",
+    "cpf": "79699062061"
 }
 ```
 #### Lista dos Associados
@@ -96,7 +98,8 @@ Response:
 [
     {
         "codAssociate": 1,
-        "associateName": "Higão de Guararema"
+        "associateName": "Higão de Guararema",
+        "cpf": "79699062061"
     }
 ]
 ```
@@ -105,6 +108,7 @@ Response:
 ###### Detalhes:
 - codVotingAgenda:  É gerado quando uma pauta é criada
 - codAssociate: É gerado quando um associado é criado
+- Caso o cpf do associado não seja válido, a votação não será concluída
 - valueVote: "S" para sim e "N" para não
 
 **POST:** http://localhost:8085/polling-station/vote-agenda
@@ -114,6 +118,15 @@ Request:
     "codVotingAgenda": 1,
     "codAssociate": 1,
     "valueVote": "N"
+}
+```
+**OBS:** Response caso o cpf do associado não seja válido
+```json
+{
+    "statusCode": 400,
+    "message": "This Associate is unable to vote",
+    "timeStamp": 1688739865414,
+    "code": 2
 }
 ```
 
@@ -134,4 +147,51 @@ Response:
         "result": 1
     }
 ]
+```
+
+**INTEGRAÇÕES:** Ao realizar uma votação, a aplicação faz uma integração com uma outra aplicação spring para validar se o cpf é válido.
+
+**URL API:** http://app.higorroberto.dev.br/validador-cpf/{cpf}
+
+Response quando o cpf for válido:
+```json
+{
+  "status": "ABLE_TO_VOTE"
+}
+```
+
+Response quando o cpf não for válido:
+```json
+{
+  "status": "UNABLE_TO_VOTE"
+}
+```
+
+URL do projeto do validador: https://github.com/HigorRobertoDev/validador-api
+
+**BANCO DE DADOS DO PROJETO**
+
+O banco de dados do projeto é um Mysql 5.6, ele está rodando em um container Docker junto com a imagem do projeto de validar o cep.
+
+Eles estão hospedados em um VPS que uso para projetos pessoais.
+
+Para configurar a roda do projeto spring, utilizei o nginx com a seguinte configuração:
+
+```json
+server {
+  listen 80;
+
+  server_name app.higorroberto.dev.br;
+
+  location / {
+
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header Host $host;
+      proxy_set_header X-NginX-Proxy true;
+      proxy_pass http://localhost:8082/;
+      proxy_redirect http://localhost:8082/ http://$server_name/;
+  }
+}
+
 ```
