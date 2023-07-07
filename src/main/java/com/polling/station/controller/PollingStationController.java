@@ -7,6 +7,7 @@ import com.polling.station.dto.response.ResultVoteAgendaResponse;
 import com.polling.station.dto.response.VotingAgendaResponse;
 import com.polling.station.dto.response.VotingSessionResponse;
 import com.polling.station.facade.IPollingStationFacade;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/polling-station")
+@Slf4j
 public class PollingStationController implements IPollingStationController {
 
     @Autowired
@@ -32,6 +34,8 @@ public class PollingStationController implements IPollingStationController {
             @RequestBody VotingAgendaRequest request
     ) {
 
+        log.info("REQUEST Controller createVotingAgenda");
+
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 this.iPollingStationFacade.createVotingAgenda(request)
         );
@@ -43,6 +47,8 @@ public class PollingStationController implements IPollingStationController {
     )
     @Override
     public ResponseEntity<List<VotingAgendaResponse>> getVotingAgenda() {
+
+        log.info("REQUEST Controller getVotingAgenda");
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 this.iPollingStationFacade.getVotingAgenda()
@@ -59,6 +65,8 @@ public class PollingStationController implements IPollingStationController {
             @RequestBody VotingSessionRequest request
     ) {
 
+        log.info("REQUEST Controller createVotingSession");
+
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 this.iPollingStationFacade.createVotingSession(request)
         );
@@ -70,6 +78,8 @@ public class PollingStationController implements IPollingStationController {
     )
     @Override
     public ResponseEntity<List<VotingSessionResponse>> getVotingSession() {
+
+        log.info("REQUEST Controller getVotingSession");
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 this.iPollingStationFacade.getVotingSession()
@@ -86,6 +96,8 @@ public class PollingStationController implements IPollingStationController {
             @RequestBody VoteAssociateAgendaRequest request
     ) {
 
+        log.info("REQUEST Controller createVoteAgenda");
+
         this.iPollingStationFacade.createVoteAssociateAgenda(
                 request
         );
@@ -101,6 +113,9 @@ public class PollingStationController implements IPollingStationController {
     public ResponseEntity<List<ResultVoteAgendaResponse>> resultVoteAgenda(
             @PathVariable("codVotingAgenda") Long codVotingAgenda
     ) {
+
+        log.info("REQUEST Controller resultVoteAgenda");
+
         return ResponseEntity.status(HttpStatus.OK).body(
                 this.iPollingStationFacade.resultVoteAgenda(
                         codVotingAgenda
