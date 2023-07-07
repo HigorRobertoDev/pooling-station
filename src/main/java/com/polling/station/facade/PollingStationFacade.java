@@ -75,6 +75,10 @@ public class PollingStationFacade implements IPollingStationFacade {
                 request.getCodVotingAgenda()
         );
 
+        this.votingSessionService.validateExistsVotingAgendaInVotingSessionBy(
+                request.getCodVotingAgenda()
+        );
+
         VotingSession votingSessionToSave = this.votingSessionBo.createVotingSession(
                 request,
                 votingAgenda

@@ -1,5 +1,7 @@
 package com.polling.station.service;
 
+import com.polling.station.common.exceptions.BusinessException;
+import com.polling.station.common.exceptions.enums.BusinessErroEnum;
 import com.polling.station.model.VotingAgenda;
 import com.polling.station.repositories.IVotingAgendaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +35,7 @@ public class VotingAgendaService implements IVotingAgendaService {
                 this.iVotingAgendaRepository.findById(codVotingAgenda);
 
         if (!votingAgendaOptional.isPresent()) {
-            throw new RuntimeException("Voting Agenda not found");
+            throw new BusinessException(BusinessErroEnum.VOTING_AGENDA_NOT_FOUND);
         }
 
         return votingAgendaOptional.get();
@@ -47,7 +49,7 @@ public class VotingAgendaService implements IVotingAgendaService {
         );
 
         if (!exists) {
-            throw new RuntimeException("Voting Agenda not found");
+            throw new BusinessException(BusinessErroEnum.VOTING_AGENDA_NOT_FOUND);
         }
     }
 

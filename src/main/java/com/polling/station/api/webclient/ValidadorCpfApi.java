@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "${api.validacaocpf.name}", url = "${api.validacaocpf.baseurl}")
 public interface ValidadorCpfApi {
 
-    @GetMapping(value = "/users/{cpf}")
+    @GetMapping(value = "/validador-cpf/{cpf}")
     ResponseEntity<ValidadorCepResponse> validarCep(
             @PathVariable("cpf") String cpf
     );

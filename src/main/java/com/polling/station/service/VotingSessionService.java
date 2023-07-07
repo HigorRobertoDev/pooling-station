@@ -1,5 +1,7 @@
 package com.polling.station.service;
 
+import com.polling.station.common.exceptions.BusinessException;
+import com.polling.station.common.exceptions.enums.BusinessErroEnum;
 import com.polling.station.model.VotingSession;
 import com.polling.station.repositories.IVotingSessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +47,19 @@ public class VotingSessionService implements IVotingSessionService {
         long minutesOpen = tempDateTime.until(dateNow, ChronoUnit.MINUTES);
 
         if (minutesOpen > votingSession.getSessionOpeningTimeInMinutes().longValue()) {
-            throw new RuntimeException("Tariff opening hours have already expired");
+            throw new BusinessException(BusinessErroEnum.TARIFF_OPENING_HOURS_HAVE_ALREADY_EXPIRED);
+        }
+    }
+
+    @Override
+    public void validateExistsVotingAgendaInVotingSessionBy(Long codVotingAgenda) {
+
+        Boolean existsVotingAgenda = this.iVotingSessionRepository.existsByVotingAgendaCodVotingAgenda(
+                codVotingAgenda
+        );
+
+        if (existsVotingAgenda) {
+            throw new BusinessException(BusinessErroEnum.CANT_NOT_CREATE_SESSION);
         }
     }
 

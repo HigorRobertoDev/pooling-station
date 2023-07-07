@@ -2,6 +2,8 @@ package com.polling.station.service;
 
 import com.polling.station.api.webclient.ValidadorCpfApi;
 import com.polling.station.api.webclient.response.ValidadorCepResponse;
+import com.polling.station.common.exceptions.BusinessException;
+import com.polling.station.common.exceptions.enums.BusinessErroEnum;
 import com.polling.station.model.Associate;
 import com.polling.station.repositories.IAssociateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +39,7 @@ public class AssociateService implements IAssociateService {
         );
 
         if (!exists) {
-            throw new RuntimeException("Associate not found");
+            throw new BusinessException(BusinessErroEnum.ASSOCIATE_NOT_FOUND);
         }
     }
 
@@ -53,7 +55,7 @@ public class AssociateService implements IAssociateService {
             ValidadorCepResponse validadorCepResponse = response.getBody();
 
             if (validadorCepResponse.getStatus().equals("UNABLE_TO_VOTE")) {
-                throw new RuntimeException("This Associate is unable to vote");
+                throw new BusinessException(BusinessErroEnum.ASSOCIATE_UNABLE_TO_VOTE);
             }
         }
     }
