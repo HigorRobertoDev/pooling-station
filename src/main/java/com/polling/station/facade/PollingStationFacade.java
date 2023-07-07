@@ -13,12 +13,14 @@ import com.polling.station.model.VotingAgenda;
 import com.polling.station.model.VotingByAgenda;
 import com.polling.station.model.VotingSession;
 import com.polling.station.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@Slf4j
 public class PollingStationFacade implements IPollingStationFacade {
 
     @Autowired
@@ -45,6 +47,8 @@ public class PollingStationFacade implements IPollingStationFacade {
     @Override
     public VotingAgendaResponse createVotingAgenda(VotingAgendaRequest request) {
 
+        log.info("Execução facade createVotingAgenda");
+
         VotingAgenda votingAgendaToSave = this.votingAgendaBo.createVotingAgenda(
                 request
         );
@@ -61,6 +65,8 @@ public class PollingStationFacade implements IPollingStationFacade {
     @Override
     public List<VotingAgendaResponse> getVotingAgenda() {
 
+        log.info("Execução facade getVotingAgenda");
+
         List<VotingAgenda> votingAgendas = this.votingAgendaService.getVotingAgenda();
 
         return this.votingAgendaBo.createListVotingAgendaResponse(
@@ -70,6 +76,8 @@ public class PollingStationFacade implements IPollingStationFacade {
 
     @Override
     public VotingSessionResponse createVotingSession(VotingSessionRequest request) {
+
+        log.info("Execução facade createVotingSession");
 
         VotingAgenda votingAgenda = this.votingAgendaService.findByCodVotingAgenda(
                 request.getCodVotingAgenda()
@@ -96,6 +104,8 @@ public class PollingStationFacade implements IPollingStationFacade {
     @Override
     public List<VotingSessionResponse> getVotingSession() {
 
+        log.info("Execução facade getVotingSession");
+
         List<VotingSession> votingSessions = this.votingSessionService.getVotingSession();
 
         return this.votingSessionBo.createListVotingSessionResponse(
@@ -105,6 +115,8 @@ public class PollingStationFacade implements IPollingStationFacade {
 
     @Override
     public void createVoteAssociateAgenda(VoteAssociateAgendaRequest request) {
+
+        log.info("Execução facade createVoteAssociateAgenda");
 
         this.votingAgendaService.verifyVotingAgenda(
                 request.getCodVotingAgenda()
@@ -137,6 +149,8 @@ public class PollingStationFacade implements IPollingStationFacade {
 
     @Override
     public List<ResultVoteAgendaResponse> resultVoteAgenda(Long codVotingAgenda) {
+
+        log.info("Execução facade resultVoteAgenda");
 
         List<VotingByAgenda> votingByAgendas = this.votingByAgendaService.resultVoteAgenda(
                 codVotingAgenda

@@ -3,6 +3,7 @@ package com.polling.station.controller;
 import com.polling.station.dto.request.AssociateRequest;
 import com.polling.station.dto.response.AssociateResponse;
 import com.polling.station.facade.IAssociateFacade;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/associate")
+@Slf4j
 public class AssociateController implements IAssociateController {
 
     @Autowired
@@ -26,6 +28,9 @@ public class AssociateController implements IAssociateController {
     public ResponseEntity<AssociateResponse> createAssociate(
             @RequestBody AssociateRequest request
     ) {
+
+        log.info("REQUEST Controller createAssociate");
+
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 this.associateFacade.createAssociate(request)
         );
@@ -36,6 +41,9 @@ public class AssociateController implements IAssociateController {
     )
     @Override
     public ResponseEntity<List<AssociateResponse>> getAssociates() {
+
+        log.info("REQUEST Controller getAssociates");
+
         return ResponseEntity.status(HttpStatus.OK).body(
                 this.associateFacade.getAssociates()
         );
